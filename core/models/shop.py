@@ -4,7 +4,7 @@ from django_ckeditor_5.fields import CKEditor5Field
 
 from core.models.base import SlugBaseModel, BaseModel, TimeBaseModel
 
-,
+
 class Category(SlugBaseModel):
     title = CharField(max_length=255)
     icon = FileField(upload_to='category/icons', null=True, blank=True)
