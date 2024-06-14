@@ -2,7 +2,7 @@ from django.db.models import IntegerField, TextField, ImageField, CharField, Fil
     BooleanField, PositiveIntegerField, JSONField, Model
 from django_ckeditor_5.fields import CKEditor5Field
 
-from core.models.base import SlugBaseModel, BaseModel, TimeBaseModel
+from apps.models.base import SlugBaseModel, BaseModel, TimeBaseModel
 
 
 class Category(SlugBaseModel):
@@ -24,8 +24,8 @@ class Shop(BaseModel):
 class Product(BaseModel):
     price = IntegerField()
     quantity = PositiveIntegerField(default=0, db_default=0)
-    seller = ForeignKey('core.Shop', CASCADE, related_name='products')
-    category = ForeignKey('core.Category', CASCADE, related_name='products')
+    seller = ForeignKey('apps.Shop', CASCADE, related_name='products')
+    category = ForeignKey('apps.Category', CASCADE, related_name='products')
     description = CKEditor5Field(null=True, blank=True)
     attributes = JSONField(default=dict, null=True, blank=True)
     reviews_count = PositiveIntegerField(default=0, db_default=0)
@@ -34,26 +34,26 @@ class Product(BaseModel):
 class Comment(Model):
     comment_type: CharField(max_length=25)
     comment = CKEditor5Field()
-    product = ForeignKey('core.Product', CASCADE, related_name='comments')
+    product = ForeignKey('apps.Product', CASCADE, related_name='comments')
 
 
 class ProductImage(TimeBaseModel):
     image = ImageField(upload_to='product/images/%Y/%m/%d')
     color = CharField(max_length=25, blank=True, null=True)
-    product = ForeignKey('core.Product', CASCADE)
+    product = ForeignKey('apps.Product', CASCADE)
 
 
 class Review(TimeBaseModel):
     text = TextField()
-    product = ForeignKey('core.Product', CASCADE, related_name='reviews')
-    user = ForeignKey('core.User', CASCADE, related_name='reviews')
+    product = ForeignKey('apps.Product', CASCADE, related_name='reviews')
+    user = ForeignKey('apps.User', CASCADE, related_name='reviews')
     reply = ForeignKey('self', CASCADE, null=True, blank=True, related_name='reviews')
 
 
 class ReviewImage(TimeBaseModel):
     image = ImageField(upload_to='Review/images/%Y/%m/%d')
-    comment = ForeignKey('core.Review', CASCADE)
-    author = ForeignKey('core.User', CASCADE)
+    comment = ForeignKey('apps.Review', CASCADE)
+    author = ForeignKey('apps.User', CASCADE)
     is_anonymous = BooleanField(default=False)
 
 

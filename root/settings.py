@@ -7,7 +7,7 @@ SECRET_KEY = 'django-insecure-wrd^1as@_8vi4z0$b^eorc^$x@bi0=&(e5kwdg--s=0#z(unfq
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -16,7 +16,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core.apps.CoreConfig',
+    'apps.apps.AppsConfig',
     'django_ckeditor_5',
 ]
 
@@ -35,8 +35,7 @@ ROOT_URLCONF = 'root.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -50,6 +49,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'root.wsgi.application'
+
+AUTH_USER_MODEL = 'apps.User'
 
 DATABASES = {
     'default': {
@@ -82,9 +83,10 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR / 'core/static')
+STATIC_ROOT = os.path.join(BASE_DIR / 'static')
+
 MEDIA_URL = 'media/'
-MEDIA_ROOT = os.path.join(BASE_DIR / 'core/media')
+MEDIA_ROOT = os.path.join(BASE_DIR / 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

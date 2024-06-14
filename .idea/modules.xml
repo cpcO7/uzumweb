@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/uzum.iml" filepath="$PROJECT_DIR$/.idea/uzum.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/uzumweb.iml" filepath="$PROJECT_DIR$/.idea/uzumweb.iml" />
     </modules>
   </component>
 </project>
