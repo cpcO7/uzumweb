@@ -5,7 +5,7 @@ from root import settings
 
 urlpatterns = [
     path("ckeditor5/", include('django_ckeditor_5.urls')),
-
+    path('', include('apps.urls')),
     path('admin/', admin.site.urls),
 ]
 

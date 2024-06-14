@@ -1,3 +1,7 @@
-from django.test import TestCase
+from django.urls import path
 
-# Create your tests here.
+from apps.views import MainTemplateView
+
+urlpatterns = [
+    path('', MainTemplateView.as_view(), name='main_page'),
+]
