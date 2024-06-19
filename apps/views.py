@@ -1,3 +1,4 @@
+import vonage
 from django.views.generic import TemplateView
 
 
@@ -15,5 +16,4 @@ class EmailVerificationView(TemplateView):
 
 class NewUserPasswordView(TemplateView):
     template_name = 'apps/login-register/new-user-password.html'
-
 
