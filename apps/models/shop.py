@@ -21,12 +21,14 @@ class Shop(BaseModel):
     description = TextField()
     banner = ImageField(upload_to='shop/banner')
     avatar = ImageField(upload_to='shop/avatar')
+    owner = ForeignKey('apps.User', CASCADE, related_name='shops')
     logo = ImageField(upload_to='shop/logo/')
 
 
 class Product(BaseModel):
     price = IntegerField()
     quantity = PositiveIntegerField(default=0, db_default=0)
+    video = FileField(upload_to='product/video', null=True, blank=True)
     seller = ForeignKey('apps.Shop', CASCADE, related_name='products')
     category = ForeignKey('apps.Category', CASCADE, related_name='products')
     description = CKEditor5Field(null=True, blank=True)
