@@ -408,7 +408,7 @@ textarea {
 /*----------------------------------------*/
 button.li-btn {
     border: none;
-    background: #fed700;
+    /*background: #fed700;*/
     color: #242424;
     font-size: 20px;
     width: 45px;
@@ -1729,7 +1729,7 @@ textarea:focus {
     background: #fff;
     border-radius: 5px;
     border: 1px solid #e1e1e1;
-    min-width: 638px;
+    min-width: 550px;
     height: 45px;
     float: left;
 }
