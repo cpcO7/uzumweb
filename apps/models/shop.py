@@ -7,7 +7,7 @@ from apps.models.base import SlugBaseModel, BaseModel, TimeBaseModel
 
 class Category(SlugBaseModel):
     title = CharField(max_length=255)
-    icon = FileField(upload_to='category/icons', null=True, blank=True)
+    icon = ImageField(upload_to='category/icons', null=True, blank=True)
     parent = ForeignKey('self', CASCADE, null=True, blank=True)
 
     def get_slug_source(self):
