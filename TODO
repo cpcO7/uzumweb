@@ -1,4 +1,20 @@
 
 
 
+minio
+drf spectacular
 
+fixtures
+asqar (category)
+elbek (region, district, city, country)
+azizbek (faq)
+
+0. region, district larni fixtures larini yaratish va apisini chiqarish
+1. login/register api ()
+2. like,wish,favorite api
+3.
+
+
+
+#homework
+1. categoryni mptt fixtures ga otkazish

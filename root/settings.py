@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.apps.AppsConfig',
     'django_ckeditor_5',
+    'mptt'
 ]
 
 MIDDLEWARE = [

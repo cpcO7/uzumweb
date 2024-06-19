@@ -1,14 +1,21 @@
 from django.db.models import IntegerField, TextField, ImageField, CharField, FileField, ForeignKey, CASCADE, \
-    BooleanField, PositiveIntegerField, JSONField, Model
+    BooleanField, PositiveIntegerField, JSONField, Model, SlugField
+from django.utils.text import slugify
 from django_ckeditor_5.fields import CKEditor5Field
 
 from apps.models.base import SlugBaseModel, BaseModel, TimeBaseModel
+from mptt.models import MPTTModel, TreeForeignKey
 
 
-class Category(SlugBaseModel):
+class Category(MPTTModel):
     title = CharField(max_length=255)
+    slug = SlugField(max_length=255, unique=True, editable=False)
     icon = FileField(upload_to='category/icons', null=True, blank=True)
-    parent = ForeignKey('self', CASCADE, null=True, blank=True)
+    parent = TreeForeignKey('self', CASCADE, null=True, blank=True, related_name='children')
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
     def get_slug_source(self):
         return self.title
@@ -66,4 +73,3 @@ class Badge(BaseModel):
     text_color = CharField(max_length=15)
     background_color = CharField(max_length=15)
     description = CKEditor5Field(null=True, blank=True)
-
