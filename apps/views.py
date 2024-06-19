@@ -1,8 +1,8 @@
 from django.views.generic import TemplateView
 
 
-class MainTemplateView(TemplateView):
-    template_name = 'apps/main.html'
+class RegisterPageTemplateView(TemplateView):
+    template_name = 'apps/login-register/register.html'
 
 
 class PhoneVerificationView(TemplateView):
