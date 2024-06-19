@@ -43,7 +43,9 @@
     <link rel="stylesheet" href="{% static 'apps/css/responsive.css' %}">
     <!-- Modernizr js -->
     <script src="{% static 'apps/js/vendor/modernizr-2.8.3.min.js' %}"></script>
-    {% block custom_css %}{% endblock %}
+    {% block custom_css %}
+        <link rel="stylesheet" href="{% static 'apps/css/header/header.css' %}">
+    {% endblock %}
 </head>
 <body>
 <!--[if lt IE 8]>
