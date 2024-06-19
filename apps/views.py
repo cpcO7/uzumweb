@@ -1,6 +1,18 @@
 from django.views.generic import TemplateView
 
 
+class MainTemplateView(TemplateView):
+    template_name = 'apps/main.html'
+
+
+class BoxMenuTemplateView(TemplateView):
+    template_name = 'apps/parts/box_menu.html'
+
+
+class MainPageView(TemplateView):
+    template_name = 'apps/main.html'
+
+
 class RegisterPageTemplateView(TemplateView):
     template_name = 'apps/login-register/register.html'
 
@@ -15,7 +27,3 @@ class EmailVerificationView(TemplateView):
 
 class NewUserPasswordView(TemplateView):
     template_name = 'apps/login-register/new-user-password.html'
-
-
-class MainPageView(TemplateView):
-    template_name = 'apps/main.html'

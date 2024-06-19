@@ -5,6 +5,7 @@ Version: 1
 Note: responsive.css, All Responsive CSS Style For This Theme Included In This File.
 ---------------------------------------------------------------*/
 /* Large Desktop Device :1501px*/
+
 @media (min-width: 1501px) {
 	/*Li's Default Container*/
 	.container {
@@ -208,10 +209,25 @@ Note: responsive.css, All Responsive CSS Style For This Theme Included In This F
 	    border-bottom: 0;        
 	}
 }
+
+/* abbos */
+
+.header-top {
+	width: 100%;
+	height: 32px;
+	padding: 0 !important;
+}
+
+
+
 /*Large Mobile Device :576px */
 @media (min-width: 576px) and (max-width: 767px) {
 	/*Home Version One Area*/
 	/*Header Top*/
+
+
+
+
 	.header-top-left {
 		text-align: center;
 		padding-bottom: 10px;
@@ -258,13 +274,26 @@ Note: responsive.css, All Responsive CSS Style For This Theme Included In This F
 		left: -10px;
 		top: -10px;
 	}
-	.ht-menu > li .ht-setting-trigger span::after, 
-	.ht-menu > li .ht-currency-trigger span::after, 
-	.ht-menu > li .ht-language-trigger span::after, 
-	.hm-minicart-trigger .item-text::after {
-		font-size: 12px;
-		margin-top: 2px;
+	/*.ht-menu > li .ht-setting-trigger span::after, */
+	/*.ht-menu > li .ht-currency-trigger span::after, */
+	/*.ht-menu > li .ht-language-trigger span::after, */
+	/*.hm-minicart-trigger .item-text::after {*/
+	/*	font-size: 12px;*/
+	/*	margin-top: 2px;*/
+	/*}*/
+	.ht-menu {
+		display: flex;
+		justify-content: space-between;
 	}
+
+
+	.location i {
+		width: 24px;
+		height: 24px;
+		color: #9fcdff;
+		font-size: 100px;
+	}
+
 	/*Header Bottom*/
 	.header-bottom, .header-sticky.sticky {
 		background: transparent;
@@ -491,7 +520,7 @@ Note: responsive.css, All Responsive CSS Style For This Theme Included In This F
 	.li-product-menu > li > a > span {
 		font-size: 14px;
 	}
-	.li-product-menu > li > a span::before, 
+	.li-product-menu > li > a span::before,
 	.li-product-menu > li > a.active span::before {
 		bottom: -13px;
 	}
@@ -617,7 +646,6 @@ Note: responsive.css, All Responsive CSS Style For This Theme Included In This F
 	/*Header Top*/
 	.header-top-left {
 		text-align: center;
-		padding-bottom: 10px;
 	}
 	.header-top-right {
 		display: flex;
