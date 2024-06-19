@@ -19,3 +19,4 @@ class NewUserPasswordView(TemplateView):
 
 class MainPageView(TemplateView):
     template_name = 'apps/main.html'
+
