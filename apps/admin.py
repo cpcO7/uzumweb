@@ -1,12 +1,20 @@
 from django.contrib import admin
 
-from apps.models import Category
-
-
 # Register your models here.
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    pass
 
+@admin.register(Shop)
+class ProductAdmin(admin.ModelAdmin):
+    pass
 
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('title', 'icon', 'parent')
+class ProductAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(ProductImage)
+class ProductAdmin(admin.ModelAdmin):
+    pass
 

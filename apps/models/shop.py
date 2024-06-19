@@ -13,6 +13,9 @@ class Category(SlugBaseModel):
     def get_slug_source(self):
         return self.title
 
+    def __str__(self):
+        return self.title
+
 
 class Shop(BaseModel):
     description = TextField()

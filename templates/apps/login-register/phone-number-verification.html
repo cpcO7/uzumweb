@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uzum | Business</title>
+    <link rel="stylesheet" href="{% static  "apps/css/register/phone-verification.css" %}">
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="{% static 'apps/images/logo.png' %}" alt="Uzum Logo">
+        </div>
+        <div class="card">
+            <div class="phone-icon">
+                <img src="{% static 'apps/images/phone-icon.png' %}" alt="Phone Icon">
+            </div>
+            <div class="phone-number">+998 93-612-62-17</div>
+            <div class="info-text">Мы отправили 6-значный код подтверждения на ваш номер телефона</div>
+            <input type="text" class="code-input" placeholder="Код подтверждения" aria-label="Код подтверждения">
+            <div class="error-text">Не получили код или код неверен? Пожалуйста подождите <span id="timer">00:55</span></div>
+            <button class="continue-button">Продолжить</button>
+        </div>
+    </div>
+    <script>
+        let timer = document.getElementById('timer');
+        let timeLeft = 55;
+        setInterval(() => {
+            if(timeLeft <= 0) {
+                timer.innerHTML = "00:00";
+            } else {
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                timer.innerHTML = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                timeLeft--;
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
