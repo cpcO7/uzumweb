@@ -17,6 +17,7 @@ pip-selfcheck.json
 .idea/**/aws.xml
 .idea/**/contentModel.xml
 .idea/**/dataSources/
+media/*
 .idea/**/dataSources.ids
 .idea/**/dataSources.local.xml
 .idea/**/sqlDataSources.xml
@@ -45,6 +46,8 @@ __pycache__/
 *.so
 build/
 develop-eggs/
+media/*
+media
 dist/
 downloads/
 eggs/
