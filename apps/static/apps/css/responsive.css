@@ -210,15 +210,6 @@ Note: responsive.css, All Responsive CSS Style For This Theme Included In This F
 	}
 }
 
-/* abbos */
-
-.header-top {
-	width: 100%;
-	height: 32px;
-	padding: 0 !important;
-}
-
-
 
 /*Large Mobile Device :576px */
 @media (min-width: 576px) and (max-width: 767px) {

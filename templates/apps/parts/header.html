@@ -1,5 +1,47 @@
 {% load static %}
 
+{% block custom_css %}
+    <style>
+        /* The Modal (background) */
+        .my-modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0); /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content/Box */
+        .my-modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}
+
 <header class="li-header-4">
     <!-- Begin Header Top Area -->
     <div class="header-top">
@@ -9,8 +51,7 @@
                 <div class="col-lg-3 col-md-4">
                     <div class="header-top-left">
                         <ul class="phone-wrap">
-                            <li><span>Telephone Enquiry:</span><a href="#">(+123) 123 
-setting321 345</a></li>
+                            <li><span>Shahar: <button id="region-modal">Toshkent</button></span></li>
                         </ul>
                     </div>
                 </div>
@@ -401,3 +442,97 @@ setting321 345</a></li>
     </div>
     <!-- Mobile Menu Area End Here -->
 </header>
+
+
+<div class="city-selector show my-modal" id="myRegionModal">
+    <div class="my-modal-content">
+
+        <h2>Yetkazish berish shahrini ko‘rsating</h2>
+        <h3>O‘zbekistonda 95 ta shaharga ertasi kun bepul yetkazib berish:</h3>
+        <form action="">
+            <input class="search_box" type="text" name="q" placeholder="Shaharni topish">
+        </form>
+        <div class="city-list">
+            <ul>
+                <li>Andijon</li>
+                <li>Asaka</li>
+                <li>Beshariq</li>
+                <li>Bulung'ur</li>
+                <li>Chinoz</li>
+                <li>Chiroqchi</li>
+                <li>Chust</li>
+                <li>Denov</li>
+                <li>Do‘stobod</li>
+                <li>Farg‘ona</li>
+                <li>G‘allaorol</li>
+                <li>G‘ijduvon</li>
+                <li>Gulobod</li>
+                <li>G‘azalkent</li>
+                <li>Ishtixon</li>
+                <li>Jizzax</li>
+                <li>Bekobod</li>
+                <li>Boysun</li>
+                <li>Buxoro</li>
+                <li>Chirchiq</li>
+                <li>Chortoq</li>
+                <li>Dang‘ara</li>
+                <li>Do‘stlik</li>
+                <li>Eshonguzar</li>
+                <li>Furqat</li>
+                <li>Galaosiya</li>
+                <li>Guliston</li>
+                <li>G‘uzor</li>
+                <li>Ibrat</li>
+                <li>Jalaquduq</li>
+                <li>Jomboy</li>
+                <li>Angren</li>
+                <li>Bokobod</li>
+                <li>Boysun</li>
+                <li>Buxoro</li>
+                <li>Chirchiq</li>
+                <li>Chortoq</li>
+                <li>Dang‘ara</li>
+                <li>Do‘stlik</li>
+                <li>Eshonguzar</li>
+                <li>Furqat</li>
+                <li>Galaosiya</li>
+                <li>Guliston</li>
+                <li>G‘uzor</li>
+                <li>Ibrat</li>
+                <li>Jalaquduq</li>
+                <li>Jomboy</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% block custom_js %}
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById("myRegionModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("region-modal");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on the button, open the modal
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+{% endblock %}
