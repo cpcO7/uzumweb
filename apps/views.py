@@ -1,4 +1,7 @@
-from django.views.generic import TemplateView
+
+from django.views.generic import TemplateView, ListView
+
+from apps.models import ProductImage
 
 
 class RegisterPageTemplateView(TemplateView):
@@ -17,6 +20,7 @@ class NewUserPasswordView(TemplateView):
     template_name = 'apps/login-register/new-user-password.html'
 
 
-class MainPageView(TemplateView):
+class MainPageView(ListView):
+    model = ProductImage
     template_name = 'apps/main.html'
-
+    context_object_name = 'products'
