@@ -1,29 +1,45 @@
-from django.views.generic import TemplateView
+from random import randint
+
+from django.core.cache import cache
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework.generics import GenericAPIView, CreateAPIView
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from apps.models import User
+from apps.serializer import LoginSerializer, LoginConfirmSerializer
 
 
-class MainTemplateView(TemplateView):
-    template_name = 'apps/main.html'
+class LoginAPIView(GenericAPIView):
+    serializer_class = LoginSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            phone_number = serializer.validated_data['phone_number']
+            if phone_number.startswith("+998") and len(phone_number) == 13 and phone_number[1:].isdigit():
+                conf_code = randint(10000, 99999)
+                cache.set(str(conf_code), phone_number, 60)
+
+                return Response({"confirmation_code": conf_code})
+            return Response({"error": "Invalid phone number"})
+
+        return Response(serializer.errors)
 
 
-class BoxMenuTemplateView(TemplateView):
-    template_name = 'apps/parts/box_menu.html'
+class LoginConfirmCreateAPIView(CreateAPIView):
+    model = User
+    serializer_class = LoginConfirmSerializer
 
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            conf_code = serializer.validated_data['code']
+            phone_number = serializer.validated_data['phone_number']
+            if cache.get(conf_code) == phone_number:
+                User.objects.get_or_create(phone_number=phone_number, defaults={'phone_number': phone_number})
+                return Response({"message": "Successfully login"})
 
-class MainPageView(TemplateView):
-    template_name = 'apps/main.html'
+            return Response({"message": "Invalid or expired code"})
 
-
-class RegisterPageTemplateView(TemplateView):
-    template_name = 'apps/login-register/register.html'
-
-
-class PhoneVerificationView(TemplateView):
-    template_name = 'apps/login-register/phone-number-verification.html'
-
-
-class EmailVerificationView(TemplateView):
-    template_name = 'apps/login-register/email-verification.html'
-
-
-class NewUserPasswordView(TemplateView):
-    template_name = 'apps/login-register/new-user-password.html'
+        return Response(serializer.errors)
