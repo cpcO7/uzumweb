@@ -1,29 +1,22 @@
-from django.views.generic import TemplateView
+from rest_framework.generics import ListAPIView
+from rest_framework.response import Response
+from .models import DeliveryPoint
+from .serializers import DeliveryPointSerializer
 
 
-class MainTemplateView(TemplateView):
-    template_name = 'apps/main.html'
+class DeliveryPointByCityView(ListAPIView):
+    queryset = DeliveryPoint.objects.all()
+    serializer_class = DeliveryPointSerializer
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        grouped_data = {}
 
-class BoxMenuTemplateView(TemplateView):
-    template_name = 'apps/parts/box_menu.html'
+        for dp in queryset:
+            city = dp.city
+            dp_data = self.get_serializer(dp).data
+            if city not in grouped_data:
+                grouped_data[city] = []
+            grouped_data[city].append(dp_data)
 
-
-class MainPageView(TemplateView):
-    template_name = 'apps/main.html'
-
-
-class RegisterPageTemplateView(TemplateView):
-    template_name = 'apps/login-register/register.html'
-
-
-class PhoneVerificationView(TemplateView):
-    template_name = 'apps/login-register/phone-number-verification.html'
-
-
-class EmailVerificationView(TemplateView):
-    template_name = 'apps/login-register/email-verification.html'
-
-
-class NewUserPasswordView(TemplateView):
-    template_name = 'apps/login-register/new-user-password.html'
+        return Response(grouped_data)
