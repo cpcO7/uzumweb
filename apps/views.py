@@ -1,11 +1,11 @@
 from random import randint
 
-from apps.serializer import DeliveryPointSerializer, LoginSerializer, LoginConfirmSerializer
 from django.core.cache import cache
 from rest_framework.generics import ListAPIView, GenericAPIView, CreateAPIView
 from rest_framework.response import Response
 
 from apps.models import User, DeliveryPoint
+from apps.serializers import DeliveryPointSerializer, LoginSerializer, LoginConfirmSerializer
 
 
 class DeliveryPointByCityView(ListAPIView):
