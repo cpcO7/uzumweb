@@ -67,3 +67,11 @@ class Badge(BaseModel):
     background_color = CharField(max_length=15)
     description = CKEditor5Field(null=True, blank=True)
 
+
+class Country(Model):
+    title = CharField(max_length=100)
+
+
+class District(Model):
+    title = CharField(max_length=100)
+    country = ForeignKey('apps.Country', CASCADE)
