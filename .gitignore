@@ -8,6 +8,7 @@
 [Ss]cripts
 pyvenv.cfg
 .venv
+utils.py
 pip-selfcheck.json
 .idea/**/workspace.xml
 .idea/**/tasks.xml
