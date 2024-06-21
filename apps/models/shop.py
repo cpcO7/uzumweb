@@ -75,10 +75,10 @@ class Badge(BaseModel):
     description = CKEditor5Field(null=True, blank=True)
 
 
-class Country(Model):
+class Region(Model):
     title = CharField(max_length=100)
 
 
 class District(Model):
     title = CharField(max_length=100)
-    country = ForeignKey('apps.Country', CASCADE)
+    region = ForeignKey('apps.Region', CASCADE)

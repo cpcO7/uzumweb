@@ -1,25 +1,23 @@
 from random import randint
 
 from django.core.cache import cache
-from rest_framework.generics import ListAPIView, GenericAPIView, CreateAPIView
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.contrib.rest_framework_simplejwt import SimpleJWTTokenUserScheme
 from rest_framework.generics import GenericAPIView, CreateAPIView, ListAPIView
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-
-from apps.models import User, DeliveryPoint
-from apps.serializers import DeliveryPointSerializer, LoginSerializer, LoginConfirmSerializer
-from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-from apps.filters import DistrictFilter
-from apps.models import User
-from apps.models.shop import Country, District
-from apps.serializers import LoginSerializer, LoginConfirmSerializer, CountrySerializer, DistrictSerializer
 
+from apps.filters import DistrictFilter
+from apps.models import User, DeliveryPoint, Region, District
+from apps.serializers import DeliveryPointModelSerializer, LoginSerializer, LoginConfirmSerializer, \
+    RegionModelSerializer, \
+    DistrictModelSerializer
 
 
 class DeliveryPointByCityView(ListAPIView):
     queryset = DeliveryPoint.objects.all()
-    serializer_class = DeliveryPointSerializer
+    serializer_class = DeliveryPointModelSerializer
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
@@ -36,7 +34,9 @@ class DeliveryPointByCityView(ListAPIView):
 
 
 class LoginAPIView(GenericAPIView):
+    queryset = User.objects.all()
     serializer_class = LoginSerializer
+    permission_classes = AllowAny,
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -53,8 +53,9 @@ class LoginAPIView(GenericAPIView):
 
 
 class LoginConfirmCreateAPIView(CreateAPIView):
-    model = User
+    queryset = User.objects.all()
     serializer_class = LoginConfirmSerializer
+    permission_classes = AllowAny,
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -64,11 +65,9 @@ class LoginConfirmCreateAPIView(CreateAPIView):
             if cache.get(conf_code) == phone_number:
                 user, created = User.objects.get_or_create(phone_number=phone_number,
                                                            defaults={'phone_number': phone_number})
-                # return Response({"message": "Successfully login"})
-
                 refresh = RefreshToken.for_user(user)
                 return Response({
-                    'message': 'Confirmation successful',
+                    'message': 'OK',
                     'access': str(refresh.access_token),
                     'refresh': str(refresh)
                 })
@@ -78,14 +77,13 @@ class LoginConfirmCreateAPIView(CreateAPIView):
         return Response(serializer.errors)
 
 
-class CountryListAPIView(ListAPIView):
-    queryset = Country.objects.all()
-    serializer_class = CountrySerializer
+class RegionListAPIView(ListAPIView):
+    queryset = Region.objects.all()
+    serializer_class = RegionModelSerializer
 
 
 class DistrictListAPIView(ListAPIView):
     queryset = District.objects.all()
-    serializer_class = DistrictSerializer
-    filterset = DistrictFilter,
+    serializer_class = DistrictModelSerializer
+    filterset_class = DistrictFilter
     filter_backends = DjangoFilterBackend,
-
