@@ -2,7 +2,7 @@ from rest_framework.fields import CharField
 from rest_framework.serializers import ModelSerializer, Serializer
 
 from apps.models import DeliveryPoint
-from apps.models.shop import Country, District
+from apps.models.shop import Region, District
 
 
 class LoginSerializer(Serializer):
@@ -14,19 +14,19 @@ class LoginConfirmSerializer(Serializer):
     code = CharField(max_length=5)
 
 
-class CountrySerializer(ModelSerializer):
+class RegionModelSerializer(ModelSerializer):
     class Meta:
-        model = Country
+        model = Region
         fields = "__all__"
 
 
-class DistrictSerializer(ModelSerializer):
+class DistrictModelSerializer(ModelSerializer):
     class Meta:
         model = District
         fields = "__all__"
 
 
-class DeliveryPointSerializer(ModelSerializer):
+class DeliveryPointModelSerializer(ModelSerializer):
     class Meta:
         model = DeliveryPoint
         fields = ['city', 'location', 'fitting_room', 'working_hour']

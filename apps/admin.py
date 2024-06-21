@@ -8,9 +8,11 @@ from apps.models import Product, Shop, Category, ProductImage, DeliveryPoint
 class ProductAdmin(admin.ModelAdmin):
     pass
 
+
 @admin.register(Shop)
 class ProductAdmin(admin.ModelAdmin):
     pass
+
 
 @admin.register(Category)
 class ProductAdmin(DraggableMPTTAdmin):
@@ -20,6 +22,7 @@ class ProductAdmin(DraggableMPTTAdmin):
 @admin.register(ProductImage)
 class ProductAdmin(admin.ModelAdmin):
     pass
+
 
 @admin.register(DeliveryPoint)
 class DeliveryPointAdmin(admin.ModelAdmin):

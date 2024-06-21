@@ -2,4 +2,4 @@ from django_filters import FilterSet, CharFilter
 
 
 class DistrictFilter(FilterSet):
-    title = CharFilter(field_name='country', lookup_expr='icontains')
+    region = CharFilter(field_name='region_id', lookup_expr='exact')
