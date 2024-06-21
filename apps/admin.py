@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.models import Product, Shop, Category, ProductImage
+from apps.models import Product, Shop, Category, DeliveryPoint
 
 
 # Register your models here.
@@ -8,16 +8,17 @@ from apps.models import Product, Shop, Category, ProductImage
 class ProductAdmin(admin.ModelAdmin):
     pass
 
+
 @admin.register(Shop)
 class ProductAdmin(admin.ModelAdmin):
     pass
+
 
 @admin.register(Category)
 class ProductAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(ProductImage)
-class ProductAdmin(admin.ModelAdmin):
-    pass
-
+@admin.register(DeliveryPoint)
+class DeliveryPointAdmin(admin.ModelAdmin):
+    list_display = ['city', 'location']
