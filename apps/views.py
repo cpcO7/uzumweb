@@ -2,10 +2,19 @@ from random import randint
 
 from django.core.cache import cache
 from rest_framework.generics import ListAPIView, GenericAPIView, CreateAPIView
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.generics import GenericAPIView, CreateAPIView, ListAPIView
 from rest_framework.response import Response
 
 from apps.models import User, DeliveryPoint
 from apps.serializers import DeliveryPointSerializer, LoginSerializer, LoginConfirmSerializer
+from rest_framework.views import APIView
+from rest_framework_simplejwt.tokens import RefreshToken
+from apps.filters import DistrictFilter
+from apps.models import User
+from apps.models.shop import Country, District
+from apps.serializers import LoginSerializer, LoginConfirmSerializer, CountrySerializer, DistrictSerializer
+
 
 
 class DeliveryPointByCityView(ListAPIView):
@@ -53,9 +62,30 @@ class LoginConfirmCreateAPIView(CreateAPIView):
             conf_code = serializer.validated_data['code']
             phone_number = serializer.validated_data['phone_number']
             if cache.get(conf_code) == phone_number:
-                User.objects.get_or_create(phone_number=phone_number, defaults={'phone_number': phone_number})
-                return Response({"message": "Successfully login"})
+                user, created = User.objects.get_or_create(phone_number=phone_number,
+                                                           defaults={'phone_number': phone_number})
+                # return Response({"message": "Successfully login"})
+
+                refresh = RefreshToken.for_user(user)
+                return Response({
+                    'message': 'Confirmation successful',
+                    'access': str(refresh.access_token),
+                    'refresh': str(refresh)
+                })
 
             return Response({"message": "Invalid or expired code"})
 
         return Response(serializer.errors)
+
+
+class CountryListAPIView(ListAPIView):
+    queryset = Country.objects.all()
+    serializer_class = CountrySerializer
+
+
+class DistrictListAPIView(ListAPIView):
+    queryset = District.objects.all()
+    serializer_class = DistrictSerializer
+    filterset = DistrictFilter,
+    filter_backends = DjangoFilterBackend,
+
