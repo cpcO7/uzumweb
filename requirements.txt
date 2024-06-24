@@ -8,4 +8,5 @@ django-mptt==0.16.0
 django-filter==24.2
 djangorestframework-simplejwt==5.3.1
 redis==5.0.6
-django_ckeditor==5-0.2.13
+django-ckeditor-5==0.2.13
+django-jazzmin==3.0.0

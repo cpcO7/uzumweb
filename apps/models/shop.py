@@ -2,9 +2,9 @@ from django.db.models import IntegerField, TextField, ImageField, CharField, Fil
     BooleanField, PositiveIntegerField, JSONField, Model, SlugField
 from django.utils.text import slugify
 from django_ckeditor_5.fields import CKEditor5Field
-
-from apps.models.base import SlugBaseModel, BaseModel, TimeBaseModel
 from mptt.models import MPTTModel, TreeForeignKey
+
+from apps.models.base import BaseModel, TimeBaseModel
 
 
 class Category(MPTTModel):
@@ -87,3 +87,6 @@ class District(Model):
 class Wish(TimeBaseModel):
     product = ForeignKey("apps.Product", CASCADE)
     user = ForeignKey("apps.User", CASCADE)
+
+    class Meta:
+        unique_together = ('product', 'user')
