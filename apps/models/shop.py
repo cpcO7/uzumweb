@@ -1,14 +1,21 @@
 from django.db.models import IntegerField, TextField, ImageField, CharField, FileField, ForeignKey, CASCADE, \
-    BooleanField, PositiveIntegerField, JSONField, Model
+    BooleanField, PositiveIntegerField, JSONField, Model, SlugField
+from django.utils.text import slugify
 from django_ckeditor_5.fields import CKEditor5Field
+from mptt.models import MPTTModel, TreeForeignKey
 
-from apps.models.base import SlugBaseModel, BaseModel, TimeBaseModel
+from apps.models.base import BaseModel, TimeBaseModel
 
 
-class Category(SlugBaseModel):
+class Category(MPTTModel):
     title = CharField(max_length=255)
-    icon = ImageField(upload_to='category/icons', null=True, blank=True)
-    parent = ForeignKey('self', CASCADE, null=True, blank=True)
+    slug = SlugField(max_length=255, unique=True, editable=False)
+    icon = FileField(upload_to='category/icons', null=True, blank=True)
+    parent = TreeForeignKey('self', CASCADE, null=True, blank=True, related_name='children')
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
     def get_slug_source(self):
         return self.title
@@ -21,12 +28,14 @@ class Shop(BaseModel):
     description = TextField()
     banner = ImageField(upload_to='shop/banner')
     avatar = ImageField(upload_to='shop/avatar')
+    owner = ForeignKey('apps.User', CASCADE, related_name='shops')
     logo = ImageField(upload_to='shop/logo/')
 
 
 class Product(BaseModel):
     price = IntegerField()
     quantity = PositiveIntegerField(default=0, db_default=0)
+    video = FileField(upload_to='product/video', null=True, blank=True)
     seller = ForeignKey('apps.Shop', CASCADE, related_name='products')
     category = ForeignKey('apps.Category', CASCADE, related_name='products')
     description = CKEditor5Field(null=True, blank=True)
@@ -65,3 +74,19 @@ class Badge(BaseModel):
     background_color = CharField(max_length=15)
     description = CKEditor5Field(null=True, blank=True)
 
+
+class Region(Model):
+    title = CharField(max_length=100)
+
+
+class District(Model):
+    title = CharField(max_length=100)
+    region = ForeignKey('apps.Region', CASCADE)
+
+
+class Wish(TimeBaseModel):
+    product = ForeignKey("apps.Product", CASCADE)
+    user = ForeignKey("apps.User", CASCADE)
+
+    class Meta:
+        unique_together = ('product', 'user')

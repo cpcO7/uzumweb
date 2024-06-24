@@ -1,17 +1,21 @@
 from django.urls import path
+from rest_framework_simplejwt.views import TokenRefreshView
 
-from apps.views import MainTemplateView, BoxMenuTemplateView
-from apps.views import RegisterPageTemplateView, EmailVerificationView, PhoneVerificationView, \
-    NewUserPasswordView, MainPageView
+from apps.views import RegionListAPIView, DistrictListAPIView, DeliveryPointByCityView, LoginAPIView, \
+    LoginConfirmCreateAPIView, CategoryListAPIView, WishListCreateAPIView
 
 urlpatterns = [
-    path('', MainTemplateView.as_view(), name='main_page'),
-    path('box-menu', BoxMenuTemplateView.as_view(), name='box_page'),
-    path('', MainPageView.as_view(), name='main-page'),
-    path('register/', RegisterPageTemplateView.as_view(), name='register'),
-    path('email-verification/', EmailVerificationView.as_view(), name='email-verification'),
-    path('phone-verification/', PhoneVerificationView.as_view(), name='phone-verification'),
-    path('new-user/', NewUserPasswordView.as_view(), name='new-user-password'),
+    path("login/", LoginAPIView.as_view()),
+    path("login-confirm/", LoginConfirmCreateAPIView.as_view()),
+    path('token/refresh/', TokenRefreshView.as_view()),
+
+    path('region/', RegionListAPIView.as_view()),
+    path('district/', DistrictListAPIView.as_view()),
+    path("login-confirm/", LoginConfirmCreateAPIView.as_view()),
+    path('delivery-points-by-city/', DeliveryPointByCityView.as_view()),
+
+    path('categories/', CategoryListAPIView.as_view()),
+    path('wishlist/', WishListCreateAPIView.as_view()),
 ]
 
 

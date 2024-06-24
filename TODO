@@ -1,7 +1,30 @@
-limupa
 
-1. (samariddin) categorylarni chiqarish
-2. (azizbek) product detail + review
-3. (elbek) seller register
-4. (biloliddin) topshirish punktlari
-5. (hojiakbar) product detail + review
+
+
+minio
+drf spectacular
+
+fixtures
+asqar (category)
+elbek (region, district, city, Region)
+azizbek (faq)
+
+python3 manage.py dumpdata apps.Region > region.json
+0. region, district larni fixtures larini yaratish va apisini chiqarish
+1. login/register api ()
+2. like,wish,favorite api
+3. adminkani custom qilish
+    - jazzmin ornatish
+    - UzumWebApi Admin degan yozuv tursin + logo bilan
+    - adminkada nomerni beauty qilish
+4..categories.json ni fixtures ga otkazish kk (mptt modelga)
+5. category apisini chiqarish
+6. rasm ni auto resize qilish (banner, logo, ...)
+
+required query params
+
+
+#homework
+1. https://dimagi.github.io/django-cte/
+
+
