@@ -1,8 +1,8 @@
-from rest_framework.fields import CharField
+from rest_framework.fields import CharField, SerializerMethodField
 from rest_framework.serializers import ModelSerializer, Serializer
 
-from apps.models import DeliveryPoint
-from apps.models.shop import Region, District
+from apps.models import DeliveryPoint, Category, Product
+from apps.models.shop import Region, District, Wish
 
 
 class LoginSerializer(Serializer):
@@ -30,3 +30,35 @@ class DeliveryPointModelSerializer(ModelSerializer):
     class Meta:
         model = DeliveryPoint
         fields = ['city', 'location', 'fitting_room', 'working_hour']
+
+
+class CategoryModelSerializer(ModelSerializer):
+    children = SerializerMethodField()
+
+    class Meta:
+        model = Category
+        fields = ['id', 'title', 'slug', 'icon', 'children']
+
+    def get_children(self, obj):
+        children = obj.get_children()
+        return CategoryModelSerializer(children, many=True).data
+
+
+class WishModelSerializer(ModelSerializer):
+    class Meta:
+        model = Wish
+        fields = "product",
+
+
+class ProductSerializer(ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['id', 'title', 'description', 'price']
+
+
+class WishListModelSerializer(ModelSerializer):
+    product = ProductSerializer(read_only=True)
+
+    class Meta:
+        model = Wish
+        fields = "product",
