@@ -82,3 +82,8 @@ class Region(Model):
 class District(Model):
     title = CharField(max_length=100)
     region = ForeignKey('apps.Region', CASCADE)
+
+
+class Wish(TimeBaseModel):
+    product = ForeignKey("apps.Product", CASCADE)
+    user = ForeignKey("apps.User", CASCADE)

@@ -8,6 +8,8 @@
 [Ss]cripts
 pyvenv.cfg
 .venv
+apps/static
+templates
 utils.py
 pip-selfcheck.json
 .idea/**/workspace.xml
