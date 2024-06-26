@@ -1,6 +1,7 @@
 from random import randint
 
 from django.core.cache import cache
+from django.views.generic import TemplateView
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import GenericAPIView, CreateAPIView, ListAPIView, ListCreateAPIView, DestroyAPIView
 from rest_framework.permissions import AllowAny
@@ -93,6 +94,7 @@ class DistrictListAPIView(ListAPIView):
 class CategoryListAPIView(ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategoryModelSerializer
+    permission_classes = AllowAny,
 
 
 class WishCreateDeleteAPIView(CreateAPIView):

@@ -1,5 +1,6 @@
+from django.contrib.postgres.fields import ArrayField
 from django.db.models import IntegerField, TextField, ImageField, CharField, FileField, ForeignKey, CASCADE, \
-    BooleanField, PositiveIntegerField, JSONField, Model, SlugField
+    BooleanField, PositiveIntegerField, JSONField, Model, SlugField, URLField
 from django.utils.text import slugify
 from django_ckeditor_5.fields import CKEditor5Field
 
@@ -11,6 +12,13 @@ class Category(MPTTModel):
     title = CharField(max_length=255)
     slug = SlugField(max_length=255, unique=True, editable=False)
     icon = FileField(upload_to='category/icons', null=True, blank=True)
+    adult = BooleanField(db_default=False, blank=True, null=True)
+    icon_link = URLField(db_default=False, blank=True, null=True)
+    eco = BooleanField(db_default=False, blank=True, null=True)
+    seo_meta_tag = CharField(max_length=255, blank=True, null=True)
+    seo_header = CharField(max_length=255, blank=True, null=True)
+    path = ArrayField(IntegerField(), blank=True, default=list)
+
     parent = TreeForeignKey('self', CASCADE, null=True, blank=True, related_name='children')
 
     def save(self, *args, **kwargs):

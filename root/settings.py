@@ -46,7 +46,7 @@ ROOT_URLCONF = 'root.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -63,10 +63,21 @@ WSGI_APPLICATION = 'root.wsgi.application'
 
 AUTH_USER_MODEL = 'apps.User'
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / "db.sqlite3",
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'uzum_db',
+        'USER': 'postgres',
+        'PASSWORD': '1',
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
 
@@ -94,11 +105,7 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR / 'staticfiles')
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'apps/static'),
-]
+STATIC_ROOT = os.path.join(BASE_DIR / 'static')
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR / 'media')
@@ -388,7 +395,8 @@ JAZZMIN_SETTINGS = {
     #############
     # Relative paths to custom CSS/JS scripts (must be present in static files)
     "custom_css": "apps/css/custom_styles.css",
-    "custom_js": None,
+    "custom_js": "apps/js/custom.js",
+    # "custom_js": None,
     # Whether to link font from fonts.googleapis.com (use custom_css to supply font otherwise)
     "use_google_fonts_cdn": True,
     # Whether to show the UI customizer on the sidebar
