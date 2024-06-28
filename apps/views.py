@@ -9,8 +9,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.filters import DistrictFilter
-from apps.models import User, DeliveryPoint, Region, District, Category, Product, SearchHistory
-from apps.models.shop import Wish
+from apps.models import User, DeliveryPoint, Region, District, Category, Product, SearchHistory, Wish
 from apps.serializers import DeliveryPointModelSerializer, LoginSerializer, LoginConfirmSerializer, \
     RegionModelSerializer, \
     DistrictModelSerializer, WishModelSerializer, CategoryModelSerializer, \
@@ -136,7 +135,6 @@ class WishCreateDeleteAPIView(CreateAPIView):
             serializer.save(user=user)
 
 
-
 class WishListApiView(ListAPIView):
     queryset = Wish.objects.all()
     serializer_class = WishListModelSerializer
@@ -146,3 +144,11 @@ class WishListApiView(ListAPIView):
 class SearchHistoryListCreateAPIView(ListCreateAPIView):
     queryset = SearchHistory.objects.order_by('-created_at')[:4]
     serializer_class = SearchHistoryModelSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return SearchHistory.objects.filter(user=user).order_by('-created_at')[:4]
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        serializer.save(user=user)
