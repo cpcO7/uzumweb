@@ -8,6 +8,9 @@
 [Ss]cripts
 pyvenv.cfg
 .venv
+apps/static
+templates
+utils.py
 pip-selfcheck.json
 .idea/**/workspace.xml
 .idea/**/tasks.xml
@@ -54,6 +57,7 @@ eggs/
 .eggs/
 lib/
 lib64/
+**migrations**
 sdist/
 var/
 wheels/

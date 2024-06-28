@@ -1,9 +1,9 @@
 from django.contrib import admin
+from mptt.admin import DraggableMPTTAdmin
 
-from apps.models import Product, Shop, Category, DeliveryPoint
+from apps.models import Product, Shop, Category, ProductImage, DeliveryPoint
 
 
-# Register your models here.
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     pass
@@ -15,6 +15,11 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 @admin.register(Category)
+class ProductAdmin(DraggableMPTTAdmin):
+    pass
+
+
+@admin.register(ProductImage)
 class ProductAdmin(admin.ModelAdmin):
     pass
 

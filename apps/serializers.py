@@ -1,7 +1,7 @@
 from rest_framework.fields import CharField, SerializerMethodField, CurrentUserDefault, HiddenField
 from rest_framework.serializers import ModelSerializer, Serializer
 
-from apps.models import DeliveryPoint, Category, Product, SearchHistory
+from apps.models import DeliveryPoint, Category, Product
 from apps.models.shop import Region, District, Wish
 
 
@@ -86,11 +86,3 @@ class WishListModelSerializer(ModelSerializer):
     class Meta:
         model = Wish
         fields = "product",
-
-
-class SearchHistoryModelSerializer(ModelSerializer):
-    user = HiddenField(default=CurrentUserDefault())
-
-    class Meta:
-        model = SearchHistory
-        fields = "keyword", "user",
