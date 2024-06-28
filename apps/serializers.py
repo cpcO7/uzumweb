@@ -1,17 +1,11 @@
 from rest_framework.fields import CharField, SerializerMethodField, CurrentUserDefault, HiddenField
 from rest_framework.serializers import ModelSerializer, Serializer
 
-from apps.models import DeliveryPoint, Category, Product
-from apps.models.shop import Region, District, Wish
+from apps.models import DeliveryPoint, Category, Product, SearchHistory, Region, District, Wish
 
 
 class LoginSerializer(Serializer):
     phone_number = CharField(max_length=25)
-
-
-class LoginConfirmSerializer(Serializer):
-    phone_number = CharField(max_length=25)
-    code = CharField(max_length=5)
 
 
 class RegionModelSerializer(ModelSerializer):
@@ -32,10 +26,27 @@ class ProductModelSerializer(ModelSerializer):
         fields = "__all__"
 
 
+class LoginConfirmSerializer(Serializer):
+    phone_number = CharField(max_length=25)
+    code = CharField(max_length=5)
+
+
 class DeliveryPointModelSerializer(ModelSerializer):
     class Meta:
         model = DeliveryPoint
         fields = ['city', 'location', 'fitting_room', 'working_hour']
+
+
+class CategoryModelSerializer(ModelSerializer):
+    children = SerializerMethodField()
+
+    class Meta:
+        model = Category
+        fields = ['id', 'title', 'slug', 'icon', 'children']
+
+    def get_children(self, obj: Category):
+        children = obj.get_children()
+        return CategoryModelSerializer(children, many=True).data
 
 
 class SubCategoryModelSerializer(ModelSerializer):
@@ -50,18 +61,6 @@ class SubCategoryModelSerializer(ModelSerializer):
         return obj.products.count()
 
     def get_children(self, obj):
-        children = obj.get_children()
-        return CategoryModelSerializer(children, many=True).data
-
-
-class CategoryModelSerializer(ModelSerializer):
-    children = SerializerMethodField()
-
-    class Meta:
-        model = Category
-        fields = ['id', 'title', 'slug', 'icon', 'children']
-
-    def get_children(self, obj: Category):
         children = obj.get_children()
         return CategoryModelSerializer(children, many=True).data
 
@@ -86,3 +85,11 @@ class WishListModelSerializer(ModelSerializer):
     class Meta:
         model = Wish
         fields = "product",
+
+
+class SearchHistoryModelSerializer(ModelSerializer):
+    user = HiddenField(default=CurrentUserDefault())
+
+    class Meta:
+        model = SearchHistory
+        fields = "keyword", "user",

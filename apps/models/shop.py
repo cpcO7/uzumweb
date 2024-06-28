@@ -18,7 +18,6 @@ class Category(MPTTModel):
     seo_meta_tag = CharField(max_length=255, blank=True, null=True)
     seo_header = CharField(max_length=255, blank=True, null=True)
     path = ArrayField(IntegerField(), blank=True, default=list)
-    icon_svg = TextField(blank=True, null=True)
 
     parent = TreeForeignKey('self', CASCADE, null=True, blank=True, related_name='children')
 
@@ -99,3 +98,8 @@ class Wish(TimeBaseModel):
 
     class Meta:
         unique_together = ('product', 'user')
+
+
+class SearchHistory(TimeBaseModel):
+    keyword = CharField(max_length=255)
+    user = ForeignKey('apps.User', CASCADE)
