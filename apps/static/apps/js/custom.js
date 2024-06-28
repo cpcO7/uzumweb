@@ -1,4 +1,4 @@
- function formatPhoneNumber(input) {
+function formatPhoneNumber(input) {
     let value = input.value.replace(/\D/g, ''); // Remove all non-numeric characters
 
     // Ensure the prefix is always "+998 "
@@ -20,7 +20,7 @@
     if (value.length > 10) {
         formattedValue += "-" + value.substring(10, 12);
     }
-        input.value = formattedValue;
+    input.value = formattedValue;
 }
 
 
