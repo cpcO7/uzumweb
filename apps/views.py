@@ -6,7 +6,6 @@ from rest_framework import status
 from rest_framework.generics import GenericAPIView, CreateAPIView, ListAPIView, ListCreateAPIView, get_object_or_404
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework.viewsets import GenericViewSet
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.filters import DistrictFilter
@@ -15,7 +14,7 @@ from apps.models.shop import Wish
 from apps.serializers import DeliveryPointModelSerializer, LoginSerializer, LoginConfirmSerializer, \
     RegionModelSerializer, \
     DistrictModelSerializer, WishModelSerializer, CategoryModelSerializer, \
-    ProductModelSerializer
+    ProductModelSerializer, WishListModelSerializer
 
 
 class DeliveryPointByCityView(ListAPIView):
@@ -119,4 +118,25 @@ class WishListCreateAPIView(ListCreateAPIView):
 class CategoryListAPIView(ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategoryModelSerializer
+    permission_classes = AllowAny,
+
+
+class WishCreateDeleteAPIView(CreateAPIView):
+    serializer_class = WishModelSerializer
+
+    def perform_create(self, serializer):
+        product_id = self.request.data.get('product')
+        user = self.request.user
+
+        existing_wish = Wish.objects.filter(user=user, product_id=product_id).first()
+
+        if existing_wish:
+            existing_wish.delete()
+        else:
+            serializer.save(user=user)
+
+
+class WishListApiView(ListAPIView):
+    queryset = Wish.objects.all()
+    serializer_class = WishListModelSerializer
     permission_classes = AllowAny,
