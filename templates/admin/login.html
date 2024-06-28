@@ -1,0 +1,43 @@
+{% extends "admin/login.html" %}
+{% block content %}
+    
+    {{ block.super }}
+    <p>Please enter the correct phone and password for a staff account. Note that both fields may be case-sensitive.</p>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+    <script>
+        jQuery(document).ready(function ($) {
+            // Apply input mask for the phone number input field
+            $('form > .input-group:first > input:first').inputmask({
+                "mask": "+\\9\\98(99) 999-99-99"
+            });
+        });
+
+        $(document).ready(function () {
+            // Handle form submission
+            $('form').submit(function (event) {
+                // Prevent the form from submitting
+                event.preventDefault();
+
+                // Get the phone number input value
+                var phoneInput = $('form > .input-group:first > input:first').val();
+
+                // Modify the input value to remove the country code and any non-digit characters
+                var modifiedPhoneInput = phoneInput.replace(/^\+998|\D/g, '');
+
+                // Set the modified value back to the input field
+                var newInput = $('<input>').attr({
+                    type: 'hidden',
+                    name: 'username',
+                    value: modifiedPhoneInput
+                });
+
+                // Append the new input element to the form
+                $(this).append(newInput);
+
+                // Now unbind the submit event handler and submit the form
+                $(this).unbind('submit').submit();
+            });
+        });
+    </script>
+{% endblock %}
