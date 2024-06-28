@@ -1,21 +1,20 @@
 from random import randint
 
 from django.core.cache import cache
+from django.views.generic import TemplateView
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import status
-from rest_framework.generics import GenericAPIView, CreateAPIView, ListAPIView, ListCreateAPIView, get_object_or_404
+from rest_framework.generics import GenericAPIView, CreateAPIView, ListAPIView, ListCreateAPIView, DestroyAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework.viewsets import GenericViewSet
+from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.filters import DistrictFilter
-from apps.models import User, DeliveryPoint, Region, District, Category, Product
+from apps.models import User, DeliveryPoint, Region, District, Category
 from apps.models.shop import Wish
 from apps.serializers import DeliveryPointModelSerializer, LoginSerializer, LoginConfirmSerializer, \
     RegionModelSerializer, \
-    DistrictModelSerializer, WishModelSerializer, CategoryModelSerializer, \
-    ProductModelSerializer
+    DistrictModelSerializer, WishModelSerializer, WishListModelSerializer, CategoryModelSerializer
 
 
 class DeliveryPointByCityView(ListAPIView):
@@ -92,31 +91,27 @@ class DistrictListAPIView(ListAPIView):
     filter_backends = DjangoFilterBackend,
 
 
-class WishListCreateAPIView(ListCreateAPIView):
-    queryset = Wish.objects.all()
-    serializer_class = WishModelSerializer
-
-    def list(self, request, *args, **kwargs):
-        queryset = Product.objects.filter(id__in=list(request.user.wish_set.values_list('product_id', flat=True)))
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = ProductModelSerializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        serializer = ProductModelSerializer(queryset, many=True)
-        return Response(serializer.data)
-
-    def create(self, request, *args, **kwargs):
-        product_id = request.data.get('product')
-        product = get_object_or_404(Product.objects.all(), pk=product_id)
-        obj, created = self.get_queryset().get_or_create(user=request.user, product=product)
-        if created:
-            return Response({'msg': 'successfully created'}, status.HTTP_201_CREATED)
-        obj.delete()
-        return Response({'msg': 'successfully deleted'}, status.HTTP_204_NO_CONTENT)
-
-
 class CategoryListAPIView(ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategoryModelSerializer
     permission_classes = AllowAny,
+
+
+class WishCreateDeleteAPIView(CreateAPIView):
+    serializer_class = WishModelSerializer
+
+    def perform_create(self, serializer):
+        product_id = self.request.data.get('product')
+        user = self.request.user
+
+        existing_wish = Wish.objects.filter(user=user, product_id=product_id).first()
+
+        if existing_wish:
+            existing_wish.delete()
+        else:
+            serializer.save(user=user)
+
+
+class WishListApiView(ListAPIView):
+    queryset = Wish.objects.all()
+    serializer_class = WishListModelSerializer

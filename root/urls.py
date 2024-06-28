@@ -1,9 +1,9 @@
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from root import settings
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
-from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+from root import settings
 
 urlpatterns = [
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),

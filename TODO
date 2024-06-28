@@ -19,12 +19,10 @@ python3 manage.py dumpdata apps.Region > region.json
     - adminkada nomerni beauty qilish
 4..categories.json ni fixtures ga otkazish kk (mptt modelga)
 5. category apisini chiqarish
-6. rasm ni auto resize qilish (banner, logo, ...)
+
 
 required query params
 
 
 #homework
-1. https://dimagi.github.io/django-cte/
-
-
+1. categoryni mptt fixtures ga otkazish
