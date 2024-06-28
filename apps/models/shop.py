@@ -98,3 +98,8 @@ class Wish(TimeBaseModel):
 
     class Meta:
         unique_together = ('product', 'user')
+
+
+class SearchHistory(TimeBaseModel):
+    keyword = CharField(max_length=255)
+    user = ForeignKey('apps.User', CASCADE)

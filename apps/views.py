@@ -3,18 +3,17 @@ from random import randint
 from django.core.cache import cache
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
-from rest_framework.generics import GenericAPIView, CreateAPIView, ListAPIView, ListCreateAPIView, get_object_or_404
+from rest_framework.generics import ListAPIView, GenericAPIView, CreateAPIView, ListCreateAPIView, get_object_or_404
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.filters import DistrictFilter
-from apps.models import User, DeliveryPoint, Region, District, Category, Product
-from apps.models.shop import Wish
+from apps.models import User, DeliveryPoint, Region, District, Category, Product, SearchHistory, Wish
 from apps.serializers import DeliveryPointModelSerializer, LoginSerializer, LoginConfirmSerializer, \
     RegionModelSerializer, \
     DistrictModelSerializer, WishModelSerializer, CategoryModelSerializer, \
-    ProductModelSerializer, WishListModelSerializer
+    ProductModelSerializer, WishListModelSerializer, SearchHistoryModelSerializer
 
 
 class DeliveryPointByCityView(ListAPIView):
@@ -140,3 +139,16 @@ class WishListApiView(ListAPIView):
     queryset = Wish.objects.all()
     serializer_class = WishListModelSerializer
     permission_classes = AllowAny,
+
+
+class SearchHistoryListCreateAPIView(ListCreateAPIView):
+    queryset = SearchHistory.objects.order_by('-created_at')[:4]
+    serializer_class = SearchHistoryModelSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return SearchHistory.objects.filter(user=user).order_by('-created_at')[:4]
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        serializer.save(user=user)
