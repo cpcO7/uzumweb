@@ -14,7 +14,7 @@ from apps.models.shop import Wish
 from apps.serializers import DeliveryPointModelSerializer, LoginSerializer, LoginConfirmSerializer, \
     RegionModelSerializer, \
     DistrictModelSerializer, WishModelSerializer, CategoryModelSerializer, \
-    ProductModelSerializer, WishListModelSerializer
+    ProductModelSerializer, WishListModelSerializer, ProductSerializer
 
 
 class DeliveryPointByCityView(ListAPIView):
@@ -140,3 +140,15 @@ class WishListApiView(ListAPIView):
     queryset = Wish.objects.all()
     serializer_class = WishListModelSerializer
     permission_classes = AllowAny,
+
+
+class ProductListAPIView(ListAPIView):
+    # queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    permission_classes = AllowAny,
+
+    def get_queryset(self):
+        category = self.kwargs.get('category')
+        if category:
+            return Product.objects.filter(category=category)
+        return Product.objects.all()

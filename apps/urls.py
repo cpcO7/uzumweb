@@ -2,7 +2,7 @@ from django.urls import path
 from rest_framework_simplejwt.views import TokenRefreshView
 
 from apps.views import RegionListAPIView, DistrictListAPIView, DeliveryPointByCityView, LoginAPIView, \
-    LoginConfirmCreateAPIView, CategoryListAPIView, WishListCreateAPIView
+    LoginConfirmCreateAPIView, CategoryListAPIView, WishListCreateAPIView, ProductListAPIView
 
 urlpatterns = [
     path("login/", LoginAPIView.as_view()),
@@ -16,6 +16,5 @@ urlpatterns = [
 
     path('categories/', CategoryListAPIView.as_view()),
     path('wishlist/', WishListCreateAPIView.as_view()),
+    path('products/', ProductListAPIView.as_view(), name='product-list'),
 ]
-
-

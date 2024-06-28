@@ -1,7 +1,7 @@
 from rest_framework.fields import CharField, SerializerMethodField, CurrentUserDefault, HiddenField
 from rest_framework.serializers import ModelSerializer, Serializer
 
-from apps.models import DeliveryPoint, Category, Product
+from apps.models import DeliveryPoint, Category, Product, ProductImage
 from apps.models.shop import Region, District, Wish
 
 
@@ -51,7 +51,7 @@ class SubCategoryModelSerializer(ModelSerializer):
 
     def get_children(self, obj):
         children = obj.get_children()
-        return CategoryModelSerializer(children, many=True).data
+        return SubCategoryModelSerializer(children, many=True).data
 
 
 class CategoryModelSerializer(ModelSerializer):
@@ -74,10 +74,18 @@ class WishModelSerializer(ModelSerializer):
         fields = 'product', 'user'
 
 
+class ProductImageModelSerializer(ModelSerializer):
+    class Meta:
+        model = ProductImage
+        fields = ('id', 'image')
+
+
 class ProductSerializer(ModelSerializer):
+    images = ProductImageModelSerializer(source='productimage_set', many=True, read_only=True)
+
     class Meta:
         model = Product
-        fields = ['id', 'title', 'description', 'price']
+        fields = ['id', 'title', 'description', 'price', 'images']
 
 
 class WishListModelSerializer(ModelSerializer):
